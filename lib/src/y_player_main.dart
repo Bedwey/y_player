@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:y_player/y_player.dart';
 
+import 'widgets/y_player_speed.dart';
+
 /// A customizable YouTube video player widget.
 ///
 /// This widget provides a flexible way to embed and control YouTube videos
@@ -47,7 +49,7 @@ class YPlayer extends StatefulWidget {
   ///
   /// The [youtubeUrl] parameter is required and should be a valid YouTube video URL.
   const YPlayer({
-    Key? key,
+    super.key,
     required this.youtubeUrl,
     this.aspectRatio,
     this.autoPlay = true,
@@ -60,7 +62,7 @@ class YPlayer extends StatefulWidget {
     this.color,
     this.onEnterFullScreen,
     this.onExitFullScreen,
-  }) : super(key: key);
+  });
 
   @override
   YPlayerState createState() => YPlayerState();
@@ -79,6 +81,9 @@ class YPlayerState extends State<YPlayer> with SingleTickerProviderStateMixin {
 
   /// Flag to indicate whether the controller is fully initialized and ready.
   bool _isControllerReady = false;
+
+  /// Add this property to track current playback speed
+  double _currentSpeed = 1.0;
 
   @override
   void initState() {
@@ -125,6 +130,14 @@ class YPlayerState extends State<YPlayer> with SingleTickerProviderStateMixin {
     }
   }
 
+  /// Add this method to change playback speed
+  void _changePlaybackSpeed(double speed) {
+    setState(() {
+      _currentSpeed = speed;
+      _controller.player.setRate(speed);
+    });
+  }
+
   @override
   void dispose() {
     // Ensure the controller is properly disposed when the widget is removed
@@ -161,6 +174,16 @@ class YPlayerState extends State<YPlayer> with SingleTickerProviderStateMixin {
           seekOnDoubleTap: true,
           seekBarPositionColor: widget.color ?? const Color(0xFFFF0000),
           seekBarThumbColor: widget.color ?? const Color(0xFFFF0000),
+          bottomButtonBar: [
+            const MaterialPositionIndicator(),
+            const MaterialPlayOrPauseButton(),
+            const Spacer(),
+            YPlayerSpeed(
+              currentSpeed: _currentSpeed,
+              changePlaybackSpeed: _changePlaybackSpeed,
+            ),
+            const MaterialFullscreenButton(),
+          ],
         ),
         fullscreen: MaterialVideoControlsThemeData(
           volumeGesture: true,
@@ -169,6 +192,16 @@ class YPlayerState extends State<YPlayer> with SingleTickerProviderStateMixin {
           seekBarBufferColor: Colors.grey,
           seekBarPositionColor: widget.color ?? const Color(0xFFFF0000),
           seekBarThumbColor: widget.color ?? const Color(0xFFFF0000),
+          bottomButtonBar: [
+            const MaterialPositionIndicator(),
+            const MaterialPlayOrPauseButton(),
+            const Spacer(),
+            YPlayerSpeed(
+              currentSpeed: _currentSpeed,
+              changePlaybackSpeed: _changePlaybackSpeed,
+            ),
+            const MaterialFullscreenButton(),
+          ],
         ),
         child: Video(
           controller: _videoController,

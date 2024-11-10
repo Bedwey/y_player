@@ -1,10 +1,17 @@
 # Changelog
 
+## 2.0.2
+
+- Added playback speed control feature
+- Enhanced video controls UI with speed selector
+
 ## 2.0.1
+
 - Fixed bug fullscreen mode not working properly
 - Added additional controls to Fullscreen mode
 
 ## 2.0.0
+
 - Major refactoring to address YouTube's deprecation of muxed streams
 - Implemented separate handling of video and audio streams for better quality options
 - Introduced `YPlayerInitializer` for proper initialization of dependencies
@@ -14,11 +21,12 @@
 - Enhanced error handling and logging
 - Updated documentation and migration guide
 - **Breaking Changes:**
-    - Initialization process now requires calling `YPlayerInitializer.ensureInitialized()`
-    - Some properties in `YPlayer` constructor have changed or been removed
-    - `ChewieController` is no longer used; all controls now use `YPlayerController`
+  - Initialization process now requires calling `YPlayerInitializer.ensureInitialized()`
+  - Some properties in `YPlayer` constructor have changed or been removed
+  - `ChewieController` is no longer used; all controls now use `YPlayerController`
 
 ## 1.1.0
+
 - Introduced new controller-based functionality for improved state management
 - Enhanced handling of app lifecycle changes and fullscreen mode
 - Added `onControllerReady` callback to `YPlayer` widget

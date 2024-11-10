@@ -29,6 +29,7 @@ class YPlayerController {
 
   /// Constructs a YPlayerController with optional callback functions.
   YPlayerController({this.onStateChanged, this.onProgressChanged}) {
+    MediaKit.ensureInitialized();
     _player = Player();
     _setupPlayerListeners();
   }
